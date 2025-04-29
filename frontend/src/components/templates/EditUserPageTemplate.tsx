@@ -1,9 +1,9 @@
-import React from "react";
-import PageControlPanel from "../molecules/PageControlPanel";
-import { useNavigate } from "react-router";
-import BaseRoutes from "../../constants/router.constants";
-import UserForm from "../molecules/UserForm";
-import type { User } from "../../types/user.types";
+import React from 'react';
+import PageControlPanel from '../molecules/PageControlPanel';
+import { useNavigate } from 'react-router';
+import BaseRoutes from '../../constants/router.constants';
+import UserForm from '../molecules/UserForm';
+import type { User } from '../../types/user.types';
 
 interface EditUserPageTemplateProps {
     user: User;
@@ -15,12 +15,13 @@ const EditUserPageTemplate: React.FC<EditUserPageTemplateProps> = ({
     handleEditUser,
 }) => {
     const navigate = useNavigate();
+
     return (
         <div>
             <PageControlPanel
                 showIcon={false}
-                pageTitle='Edit User'
-                createItemTitle='See all users'
+                pageTitle="Edit User"
+                createItemTitle="See all users"
                 handleButtonClick={() => navigate(BaseRoutes.users)}
             />
             <UserForm onSubmit={handleEditUser} preloadData={user} />

@@ -4,8 +4,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon --exec node --loader ts-node/esm backend/server.ts",
-        "build": "tsc"
+        "dev": "nodemon --exec node --loader ts-node/esm backend/server.ts"
     },
     "keywords": [],
     "author": "",

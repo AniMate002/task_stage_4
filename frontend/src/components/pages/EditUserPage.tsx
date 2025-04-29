@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import EditUserPageTemplate from "../templates/EditUserPageTemplate";
-import { useNavigate, useParams } from "react-router";
-import type { User } from "../../types/user.types";
+import React, { useEffect, useState } from 'react';
+import EditUserPageTemplate from '../templates/EditUserPageTemplate';
+import { useNavigate, useParams } from 'react-router';
+import type { User } from '../../types/user.types';
 import {
     editUserService,
     fetchSingleUserService,
-} from "../../services/users.service";
-import BaseRoutes from "../../constants/router.constants";
+} from '../../services/users.service';
+import BaseRoutes from '../../constants/router.constants';
 
 const EditUserPage: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);

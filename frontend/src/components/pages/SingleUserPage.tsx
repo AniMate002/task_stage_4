@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import HomePageTemplate from '../templates/HomePageTemplate';
+import SingleUserPageTemplate from '../templates/SingleUserPageTemplate';
+import { useParams } from 'react-router';
+import {
+    fetchSingleUserService,
+    fetchUserTasksService,
+} from '../../services/users.service';
+import type { User } from '../../types/user.types';
+import type { Task, TaskStatus } from '../../types/task.types';
 import {
     changeTaskStatusService,
     deleteTaskService,
-    fetchTasksService,
 } from '../../services/tasks.service';
-import type { Task, TaskStatus } from '../../types/task.types';
 
-const HomePage: React.FC = () => {
+const SingleUserPage: React.FC = () => {
+    const [user, setUser] = useState<User | null>(null);
     const [tasks, setTasks] = useState<Array<Task>>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<null | string>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const { id } = useParams();
 
     const handleDeleteTask = (id: number) => {
         deleteTaskService(id)
@@ -40,23 +48,29 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetchTasksService()
-            .then((data) => {
-                if (Array.isArray(data)) setTasks(data);
+
+        Promise.all([
+            fetchSingleUserService(Number(id)),
+            fetchUserTasksService(Number(id)),
+        ])
+            .then(([user, tasks]) => {
+                setUser(user);
+                setTasks(tasks);
             })
             .catch((error) => setError(error))
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [id]);
 
     if (error) return <h1>{error}</h1>;
-    if (isLoading) return <h1>Loading</h1>;
+    if (isLoading || !user || !tasks) return <h1>Loading</h1>;
     return (
-        <HomePageTemplate
+        <SingleUserPageTemplate
+            user={user}
             tasks={tasks}
-            handleDeleteTask={handleDeleteTask}
             handleChangeTaskStatus={handleChangeTaskStatus}
+            handleDeleteTask={handleDeleteTask}
         />
     );
 };
 
-export default HomePage;
+export default SingleUserPage;
